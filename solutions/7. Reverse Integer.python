@@ -1,0 +1,19 @@
+class Solution(object):
+    def reverse(self, x):
+        s=str(x)
+        reverse_no=0
+        if s[0]=='-':
+            reverse_no=int('-'+s[-1:0:-1])
+            if reverse_no >= -2147483648 and reverse_no<= 2147483647:
+                return reverse_no
+            else:
+                return 0
+        else:
+            reverse_no=int(s[::-1])
+            print(reverse_no)
+            if reverse_no >= -2147483648 and reverse_no<= 2147483647:
+                return reverse_no
+            else:
+                return 0
+            
+        
