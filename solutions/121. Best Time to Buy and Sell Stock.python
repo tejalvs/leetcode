@@ -1,0 +1,16 @@
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        
+        maxProfit=0
+        minVal=float('inf')
+        for i in range(len(prices)):
+            if prices[i]<minVal:
+                minVal=prices[i]
+                
+            elif prices[i]- minVal > maxProfit:
+                maxProfit = prices[i] - minVal
+        return maxProfit
