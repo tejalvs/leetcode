@@ -3,7 +3,6 @@ class Solution:
         output = []
         
         for i in range(n):
-            output.append( nums[i])
-            output.append( nums[n+i]  )
+            output.extend( [nums[i], nums[n+i] ] )
             
         return output
