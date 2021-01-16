@@ -1,8 +1,7 @@
 def courseSchedule(course):
     course_Map=generateCourseMap(course)
-    keylist=course_Map.keys()
-    print(keylist)
     print(course_Map)
+    keylist=course_Map.keys()
     result={}
     visited=[]
     for i in keylist:
@@ -10,9 +9,8 @@ def courseSchedule(course):
         end=''
         temp=course_Map[i]
         visited.append(i)
-        while (len(temp)!=0):
+        while (len(temp)>0):
             currentkey=temp.pop(0)
-            print(i,currentkey,temp)
             if currentkey in visited:
                 continue
             visited.append(currentkey)
@@ -24,7 +22,7 @@ def courseSchedule(course):
                     result[start].append(end)
                 else:
                     result[start]=[end]
-    print(result)
+    return result
 
 def generateCourseMap(course):
     course_Map = {}
@@ -40,6 +38,7 @@ def generateCourseMap(course):
 def Main():
     course=[['A','B'],['A','C'],['B','K'],['C','K'],['L','M'],
                 ['L','N'],['D','E'],['D','J'],['E','F'],['E','G'],['F','H'],['G','I']]
-    courseSchedule(course)
+    result=courseSchedule(course)
+    print(result)
 
 Main()
