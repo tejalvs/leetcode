@@ -1,0 +1,80 @@
+# Classic Union Find DS
+class UnionFind:
+    
+    def __init__(self,m,n):
+        self.parent = [0]*(m*n)
+        self.size = [1]*(m*n)
+        
+        # initally root is itself
+        for i in range(m*n):
+            self.parent[i] = i
+            
+    # classic Find
+    def find(self,x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+        
+    
+    def union(self, x, y):
+        px,py = map(self.find, [x,y])
+        
+        # if same root no need to join
+        if px == py:
+            return
+        
+        # if px greater than insert to py
+        if self.size[px] < self.size[py]:
+            self.parent[px] = self.parent[py]
+        
+        # if py greater than insert to px
+        elif self.size[px] > self.size[py]:
+            self.parent[py] = self.parent[px]
+            
+        # if same then get to one of the roots
+        # and then increment that root that got bigger
+        else:
+            self.parent[px] = self.parent[py]
+            self.size[py]+=1
+        
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        
+        # number cell calculator
+        def numcell(i,j):
+            return len(grid[0])*i+j
+            
+        
+        m,n = len(grid),len(grid[0])        
+        dus = UnionFind(m,n)
+        
+        for i in range(m):
+            for j in range(n):
+                # For each 1 check all 4-dir and if its 1 then unite
+                # normally a DFS, but this is easier for UF method.
+                if grid[i][j] == '1':
+                    if i + 1 < m and grid[i + 1][j] == "1":
+                        dus.union(numcell(i,j),numcell(i+1,j))
+                    if i - 1 >= 0 and grid[i - 1][j] == "1":
+                        dus.union(numcell(i,j),numcell(i-1,j))
+                    if j + 1 < n and grid[i][j + 1] == "1":
+                        dus.union(numcell(i,j),numcell(i,j+1))
+                    if j - 1 >= 0 and grid[i][j - 1] == "1":
+                        dus.union(numcell(i,j),numcell(i,j - 1))
+        
+        # Go through each element with a '1' and find its
+        # root. in order not to repeat islands make sure to have
+        # a freq. If it was never visited then visit that root and 
+        # increment root.
+        res = 0
+        freq = [0]*(m*n)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    px = dus.find(numcell(i,j))
+                    
+                    if freq[px] == 0:
+                        res += 1
+                    freq[px]+=1
+                                     
+        return res
