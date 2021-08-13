@@ -7,4 +7,3 @@ class Solution:
             rem=target-nums[i]
             if((rem in map.keys()) and (map[rem]!=i)):
                 return [map[rem],i]
-            
